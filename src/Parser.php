@@ -22,7 +22,7 @@ class Parser
 		$this->fields = $fields;
 	}
 
-	public function parse(array $data): string
+	public function parse(array $data, array $map = []): string
 	{
 		$result = '';
 		foreach ($data as $parts) {
@@ -32,6 +32,7 @@ class Parser
 				list($field, $operator, $value) = $parts;
 				if (is_string($field)) {
 					$operator = $this->getOperator($operator);
+					$field = $map[$field] ?? $field;
 					$fieldObject = $this->getField($field);
 					$result .= sprintf(
 						'%s%s%s',
