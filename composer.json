@@ -1,0 +1,30 @@
+{
+  "name": "ayeo/aquerium",
+  "license": "MIT",
+  "version": "0.1.0-dev",
+  "authors": [
+    {
+      "name": "Michał Grabowski (ayeo)",
+      "email": "me@ayeo.pl"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Ayeo\\Aquerium\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Ayeo\\Aquerium\\Test\\": "test/"
+    }
+  },
+  "require": {
+    "php": ">=7.3",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.0",
+    "squizlabs/php_codesniffer": "*",
+    "phpmd/phpmd": "^2.6"
+  }
+}
