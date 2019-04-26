@@ -2,23 +2,24 @@
 
 namespace Ayeo\Aquerium;
 
+use Ayeo\Aquerium\Driver\Driver;
 use Ayeo\Aquerium\Field\Field;
-use Ayeo\Aquerium\Operator\Operator;
+use Ayeo\Aquerium\Driver\Operator;
 use RuntimeException;
 
 class Parser
 {
-	/** @var Operator[] */
-	private $operators;
+	/** @var Driver */
+	private $driver;
 
 	/** @var Field[] */
 	private $fields;
 
-	public function __construct(array $operators, array $fields)
+	public function __construct(Driver $driver, array $fields)
 	{
-		//todo: neither operator and fields may be empty
-		//todo: dont allow to add same field symbol twice (same for operators) - use addField() in loop
-		$this->operators = $operators;
+		//todo: fields may not be empty
+		//todo: dont allow to add same field symbol twice - use addField() in loop
+		$this->driver = $driver;
 		$this->fields = $fields;
 	}
 
@@ -31,15 +32,9 @@ class Parser
 			} else {
 				list($field, $operator, $value) = $parts;
 				if (is_string($field)) {
-					$operator = $this->getOperator($operator);
 					$field = $map[$field] ?? $field;
 					$fieldObject = $this->getField($field);
-					$result .= sprintf(
-						'%s%s%s',
-						$field,
-						$operator->getOperator(),
-						$operator->processValue($value, $fieldObject)
-					);
+					$result .= $this->driver->$operator($fieldObject, $value);
 				} else {
 					$result .= sprintf('(%s)', $this->parse($parts));
 				}
@@ -61,25 +56,5 @@ class Parser
 		}
 
 		throw new RuntimeException('Unknown field');
-	}
-
-	/**
-	 * @throws RuntimeException
-	 */
-	private function getOperator(string $symbol): Operator
-	{
-		foreach ($this->operators as $operator) {
-			if ($operator->getSlug() === $symbol) {
-				return $operator;
-			}
-		}
-
-		throw new RuntimeException('Unknown operator');
-	}
-
-	//for tests purposes only
-	public function getOperators(): array
-	{
-		return $this->operators;
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace Ayeo\Aquerium\Test;
 
-use Ayeo\Aquerium\Operator;
+use Ayeo\Aquerium\Driver;
 use Ayeo\Aquerium\Parser;
 use Ayeo\Aquerium\Field;
 use PHPUnit\Framework\TestCase;
@@ -41,16 +41,13 @@ class SolrParserTest extends TestCase
 
 	protected function setUp(): void
 	{
-		$operators = [
-			new Operator\Solr\Equal()
-		];
-
+		$driver = new Driver\Solr();
 		$fields = [
 			new Field\Text('name'),
 			new Field\Text('symbol'),
 			new Field\Numeric('price')
 		];
 
-		$this->parser = new Parser($operators, $fields);
+		$this->parser = new Parser($driver, $fields);
 	}
 }
