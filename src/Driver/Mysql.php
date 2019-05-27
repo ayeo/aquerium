@@ -10,4 +10,9 @@ final class Mysql extends Driver
 	{
 		return sprintf('%s=%s', $field->getName(), $value);
 	}
+    
+    function greaterThan(Field $field, string $value): string
+    {
+        return sprintf('%s>%s', $field->getName(), $value);
+    }
 }

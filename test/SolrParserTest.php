@@ -38,6 +38,17 @@ class SolrParserTest extends TestCase
 			$this->parser->parse($q)
 		);
 	}
+    
+    public function testWithGreaterThan(): void
+    {
+        $q = [
+            ['price', 'greaterThan', '15'],
+        ];
+        $this->assertEquals(
+            'price:[15.001 TO *]',
+            $this->parser->parse($q)
+        );
+	}
 
 	protected function setUp(): void
 	{
