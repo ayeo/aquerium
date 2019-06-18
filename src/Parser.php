@@ -30,7 +30,7 @@ class Parser
 			if (is_string($parts)) { //todo: and if it is AND/OR
 				$result .= sprintf(' %s ', $parts); //todo: dont allow to end query with operator
 			} else {
-				list($field, $operator, $value) = $parts;
+				@list($field, $operator, $value) = $parts; //index 1 may not be set [[field, equal, value]]
 				if (is_string($field)) {
 					$field = $map[$field] ?? $field;
 					$fieldObject = $this->getField($field);
